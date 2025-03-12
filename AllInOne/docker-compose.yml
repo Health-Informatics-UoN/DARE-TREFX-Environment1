@@ -41,7 +41,7 @@ services:
     environment:
       - TreAPISettings__Address=http://treAPI    
       - Serilog__SeqServerUrl=http://seq:5341
-      - DemoMode=true
+      - DemoMode=false
       - KeyCloakDemoMode=true
       - TreKeyCloakSettings__Authority=${TreKeyCloakAuthority}
       - TreKeyCloakSettings__MetadataAddress=${TreKeyCloakMetadataAddress}
@@ -68,7 +68,7 @@ services:
     networks:
       - sub-net
      # - engine-tre
-      
+
     ports:
       - 8072:80
     depends_on:
@@ -83,7 +83,7 @@ services:
       submissionAPI:
         condition: service_started
     environment:
-      - DemoMode=true
+      - DemoMode=false
       - KeyCloakDemoMode=true
       - DemoModeDefaultP=password123
       - ConnectionStrings__DefaultConnection=Server=postgres;Port=5432;Database=DARE-Tre;Include Error Detail=true;User Id=${PGLOGIN};Password=${PGPASSWORD};TrustServerCertificate=True;
@@ -136,13 +136,13 @@ services:
       - JobSettings__scanSchedule=${scanSchedule}
       - JobSettings__syncSchedule=${syncSchedule}
       - DataEgressAPISettings__Address=http://DataEgressAPI:80
-     # - AgentSettings__TESKAPIURL=http://tesk.test-tesk.dk.serp.ac.uk/ga4gh/tes/v1/tasks
+      - AgentSettings__TESKAPIURL=http://host.docker.internal:8000/v1/tasks
       #- AgentSettings__URLHasuraToAdd=${HasuraIP}
       - TreName=${TreName}
       #- AgentSettings__Proxy=true
       #- AgentSettings__ProxyAddresURL=${proxyurl}
       #- AgentSettings__ImageNameToAddToToken=harbor.ukserp.ac.uk/dare-trefx/control-tre-hasura
-      #- AgentSettings__TESKOutputBucketPrefix=http://s3.foo.bar.baz/
+      - AgentSettings__TESKOutputBucketPrefix=s3://
       - MinioTRESettings__Url=http://minio2:9000
       - MinioTRESettings__HutchURLOverride=${HutchMinioURLOverride}
       - MinioTRESettings__AccessKey=${TreMinioAdminUser}
@@ -178,7 +178,7 @@ services:
     depends_on:
       - DataEgressAPI
     environment:
-      - DemoMode=true
+      - DemoMode=false
       - KeyCloakDemoMode=true
       - Serilog__SeqServerUrl=http://seq:5341
       - DataEgressKeyCloakSettings__Authority=${EgressKeyCloakAuthority}
@@ -214,9 +214,9 @@ services:
       keycloak: 
         condition: service_healthy     
     environment:
-      - DemoMode=true
+      - DemoMode=false
       - KeyCloakDemoMode=true
-      - DemoModeDefaultP=password123
+      # - DemoModeDefaultP=password123
       - ConnectionStrings__DefaultConnection=Server=postgres;Port=5432;Database=DATA-Egress;Include Error Detail=true;User Id=${PGLOGIN};Password=${PGPASSWORD};TrustServerCertificate=True;
       - RabbitMQ__HostAddress=rabbitmq-tre
       - Serilog__SeqServerUrl=http://seq:5341
@@ -272,7 +272,7 @@ services:
     volumes:
       - data-protection:/root/.aspnet/DataProtection-Keys
     environment:
-      - DemoMode=true
+      - DemoMode=false
       - KeyCloakDemoMode=true
       - CONNECTIONSTRINGS__DEFAULTCONNECTION="Server=postgres;Port=32769;Database=DARE-Control;UserId=${PGLOGIN};Password=${PGPASSWORD};TrustServerCertificate=True;"
       - Serilog__SeqServerUrl=http://seq:5341
@@ -323,7 +323,7 @@ services:
       minioAAA:
         condition: service_healthy
     environment:
-      - DemoMode=true
+      - DemoMode=false
       - KeyCloakDemoMode=true
       - ConnectionStrings__DefaultConnection=Server=postgres;Port=5432;Database=DARE-Control;Include Error Detail=true;User Id=${PGLOGIN};Password=${PGPASSWORD};TrustServerCertificate=True;
       - RabbitMQ__HostAddress=rabbitmq
@@ -561,7 +561,7 @@ services:
       - seq_data:/data
     environment:
       - ACCEPT_EULA=Y
-
+  
 ######################################################
 # VOLUME
 ######################################################
